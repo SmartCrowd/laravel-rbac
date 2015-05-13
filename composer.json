@@ -1,0 +1,22 @@
+{
+    "name": "SmartCrowd/laravel-rbac",
+    "description": "Laravel RBAC implementation.",
+    "keywords": ["laravel", "RBAC", "ACL", "role-based access control"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SmartCrowd, Yuri Agapov, Paul Klementev",
+            "email": "y.agapov@smart-crowd.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "5.0.x",
+        "symfony/class-loader": "~2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "SmartCrowd\\Rbac\\": "src"
+        }
+    }
+}
