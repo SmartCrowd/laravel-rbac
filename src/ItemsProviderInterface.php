@@ -1,7 +1,8 @@
 <?php
+
 namespace SmartCrowd\Rbac;
 
-interface IRules
+interface ItemsProviderInterface
 {
     public function get();
 }

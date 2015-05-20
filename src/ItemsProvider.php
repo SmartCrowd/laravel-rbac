@@ -1,18 +1,16 @@
 <?php
 namespace SmartCrowd\Rbac;
 
-use SmartCrowd\Rbac\Rbac;
-
-class Rules implements IRules
+class ItemsProvider implements ItemsProviderInterface
 {
     public function get()
     {
         return [
             /* roles */
             'user' => [
-                'type' => Rbac::TYPE_ROLE,
+                'type' => Item::TYPE_ROLE,
                 'description' => 'Рядовой пользователь',
-                'bizRule' => function ($user, $params) {
+                'bizRule' => function ($params) {
                     return true;
                 },
                 'data' => [],
@@ -20,9 +18,9 @@ class Rules implements IRules
                     'news.*'
                 ],
             ],
-            /* tasks */
+            /* permissions */
             'news.manage' => [
-                'type' => Rbac::TYPE_TASK,
+                'type' => Item::TYPE_PERMISSION,
                 'description' => 'Редактор новостей',
                 'bizRule' => null,
                 'children' => [
@@ -30,9 +28,9 @@ class Rules implements IRules
                 ],
             ],
             'news.use' => [
-                'type' => Rbac::TYPE_TASK,
+                'type' => Item::TYPE_PERMISSION,
                 'description' => 'Читатель новостей',
-                'bizRule' => function ($user, $params) {
+                'bizRule' => function ($params) {
                     return $params['model']->status == 1; // новость опубликована
                 },
                 'children' => [
@@ -40,19 +38,19 @@ class Rules implements IRules
                     'news.view.own',
                 ],
             ],
-            /* permissions */
+
             'news.view.all' => [
-                'type' => Rbac::TYPE_PERMISSION,
+                'type' => Item::TYPE_PERMISSION,
                 'description' => 'Просмотр всех новостей',
-                'bizRule' => function ($user, $params) {
+                'bizRule' => function ($params) {
                     return true;
                 },
             ],
             'news.view.own' => [
-                'type' => Rbac::TYPE_PERMISSION,
+                'type' => Item::TYPE_PERMISSION,
                 'description' => 'Просмотр собственных новостей',
-                'bizRule' => function ($user, $params) {
-                    return $user->id == $params['model']->user_id; // владелец новости
+                'bizRule' => function ($params) {
+                    return $this->user->id == $params['model']->user_id; // владелец новости
                 },
             ],
         ];
