@@ -55,7 +55,7 @@ class Rbac
             return false;
         }
 
-        if (isset($assignments[$itemName])) {
+        if (in_array($itemName, $assignments)) {
             return true;
         }
 
@@ -85,7 +85,7 @@ class Rbac
         }
 
         foreach ($items as $name => $item) {
-            $class = $item['type'] == Item::TYPE_PERMISSION ? 'Permission' : 'Role';
+            $class = $item['type'] == Item::TYPE_PERMISSION ? '\\SmartCrowd\\Rbac\\Permission' : '\\SmartCrowd\\Rbac\\Role';
             $this->items[$name] = new $class([
                 'name' => $name,
                 'description' => isset($item['description']) ? $item['description'] : null,
@@ -98,7 +98,7 @@ class Rbac
             if (isset($item['children'])) {
                 foreach ($item['children'] as $childName) {
                     if (isset($this->items[$childName])) {
-                        $this->addChild($item, $this->items[$childName]);
+                        $this->addChild($this->items[$name], $this->items[$childName]);
                     }
                 }
             }

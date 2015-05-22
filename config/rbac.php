@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'itemsProvider' => 'App\\Rbac\\ItemsProvider'
+    'itemsProvider' => 'SmartCrowd\\Rbac\\ItemsProvider'
 ];

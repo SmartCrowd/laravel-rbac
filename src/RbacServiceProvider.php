@@ -13,7 +13,7 @@ class RbacServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('rbac', '\\App\\Rbac\\Rbac');
+        $this->app->bind('rbac', '\\SmartCrowd\\Rbac\\Rbac');
     }
 
     public function boot()

@@ -22,7 +22,7 @@ class Rule
      */
     public function __construct(\Closure $closure)
     {
-        $this->closure = $closure;
+        $this->closure = $closure->bindTo($this, $this);
     }
 
     /**

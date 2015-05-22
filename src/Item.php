@@ -31,4 +31,13 @@ class Item
      * @var mixed the additional data associated with this item
      */
     public $data;
+
+    public function __construct($config)
+    {
+        foreach ($config as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
+    }
 }
