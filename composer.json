@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SmartCrowd\\Rbac\\": "src"
+            "SmartCrowd\\Rbac\\": "src/Rbac/"
         }
     }
 }

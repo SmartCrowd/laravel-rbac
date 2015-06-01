@@ -18,6 +18,8 @@ class RbacTest extends TestCase
 
     public function rules()
     {
+        require_once(__DIR__ . '/../vendor/autoload.php');
+
         $admin = new User(1, ['admin']);
         $user = new User(2, ['user']);
         $news = (object) ['author_id' => 2];

@@ -2,7 +2,9 @@
 
 namespace SmartCrowd\Rbac;
 
-class Rbac
+use SmartCrowd\Rbac\Contracts\ItemsProviderInterface;
+
+class Manager
 {
     /**
      * @var Item[]
@@ -14,9 +16,9 @@ class Rbac
      */
     protected $children = []; // itemName, childName => child
 
-    public function __construct()
+    public function __construct(ItemsProviderInterface $itemsProvider)
     {
-        $this->load();
+        $this->load($itemsProvider);
     }
 
     /**
@@ -69,20 +71,15 @@ class Rbac
 
     /**
      * Load items from rules source and
+     * @param ItemsProviderInterface $itemsProvider
      * @throws \Exception
      */
-    protected function load()
+    protected function load($itemsProvider)
     {
         $this->children = [];
         $this->items = [];
 
-        $itemsProvider = app(config('rbac.itemsProvider'));
-
-        if ($itemsProvider instanceof ItemsProviderInterface) {
-            $items = $itemsProvider->get();
-        } else {
-            throw new \Exception('Given rules provider ['.config('rbac.rulesProvider').'] does not implement [RulesProviderInterface]');
-        }
+        $items = $itemsProvider->get();
 
         foreach ($items as $name => $item) {
             $class = $item['type'] == Item::TYPE_PERMISSION ? '\\SmartCrowd\\Rbac\\Permission' : '\\SmartCrowd\\Rbac\\Role';

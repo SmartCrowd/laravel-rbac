@@ -2,6 +2,8 @@
 
 namespace SmartCrowd\Rbac;
 
+use SmartCrowd\Rbac\Contracts\ItemsProviderInterface;
+
 class ItemsProvider implements ItemsProviderInterface
 {
     public function get()

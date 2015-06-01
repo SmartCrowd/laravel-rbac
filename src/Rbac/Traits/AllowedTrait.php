@@ -1,6 +1,6 @@
 <?php
 
-namespace SmartCrowd\Rbac;
+namespace SmartCrowd\Rbac\Traits;
 
 trait AllowedTrait
 {

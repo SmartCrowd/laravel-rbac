@@ -2,6 +2,9 @@
 
 namespace SmartCrowd\Rbac;
 
+use SmartCrowd\Rbac\Contracts\Assignable;
+use SmartCrowd\Rbac\Traits\AllowedTrait;
+
 class User implements Assignable
 {
     use AllowedTrait;

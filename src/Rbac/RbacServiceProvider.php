@@ -1,6 +1,7 @@
 <?php
 namespace SmartCrowd\Rbac;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class RbacServiceProvider extends ServiceProvider
@@ -13,13 +14,15 @@ class RbacServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('rbac', '\\SmartCrowd\\Rbac\\Rbac');
+        $this->app->singleton('rbac', '\\SmartCrowd\\Rbac\\Manager');
     }
 
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/rbac.php' => config_path('rbac.php'),
+            __DIR__ . '/config/rbac.php' => config_path('rbac.php'),
         ]);
+
+        $this->app->singleton('SmartCrowd\Rbac\Contracts\ItemsProviderInterface', Config::get('rbac.itemsProvider'));
     }
 }
