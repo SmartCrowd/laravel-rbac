@@ -16,6 +16,16 @@ class Manager
      */
     protected $children = []; // itemName, childName => child
 
+    /**
+     * @var array
+     */
+    protected $actions = []; // actionName => itemName
+
+    /**
+     * @var array
+     */
+    protected $controllers = []; // controllerName => prefix
+
     public function __construct(ItemsProviderInterface $itemsProvider)
     {
         $this->load($itemsProvider);
@@ -31,6 +41,37 @@ class Manager
     {
         $assignments = $user->getAssignments();
         return $this->checkAccessRecursive($user, $itemName, $params, $assignments);
+    }
+
+    public function has($itemName)
+    {
+        return isset($this->items[$itemName]);
+    }
+
+    public function action($actionName, $itemName)
+    {
+        $this->actions[$actionName] = $itemName;
+    }
+
+    public function controller($controllerName, $prefix)
+    {
+        $this->controllers[$controllerName] = $prefix;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getControllers()
+    {
+        return $this->controllers;
     }
 
     /**
