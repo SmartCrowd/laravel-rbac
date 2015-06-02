@@ -58,6 +58,21 @@ class Manager
         $this->controllers[$controllerName] = $prefix;
     }
 
+    public function permission()
+    {
+
+    }
+
+    public function role()
+    {
+
+    }
+
+    public function resource()
+    {
+
+    }
+
     /**
      * @return array
      */
