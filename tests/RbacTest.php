@@ -11,15 +11,21 @@ class RbacTest extends TestCase
         return ['SmartCrowd\Rbac\RbacServiceProvider'];
     }
 
+    protected function getPackageAliases()
+    {
+        return [
+            'Rbac' => 'SmartCrowd\Rbac\Facades\Rbac'
+        ];
+    }
+
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('rbac.itemsProvider', 'SmartCrowd\\Rbac\\ItemsProvider');
+        $app['config']->set('rbac.itemsPath', __DIR__ . '/items.php');
+        $app['config']->set('rbac.actionsPath', __DIR__ . '/actions.php');
     }
 
     public function rules()
     {
-        require_once(__DIR__ . '/../vendor/autoload.php');
-
         $admin = new User(1, ['admin']);
         $user = new User(2, ['user']);
         $news = (object) ['author_id' => 2];

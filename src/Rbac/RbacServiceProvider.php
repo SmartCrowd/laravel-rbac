@@ -20,9 +20,16 @@ class RbacServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/rbac.php' => config_path('rbac.php'),
+            __DIR__ . '/install/config/rbac.php' => config_path('rbac.php'),
+            __DIR__ . '/install/Rbac' => app_path('Rbac'),
         ]);
 
-        $this->app->singleton('SmartCrowd\Rbac\Contracts\ItemsProviderInterface', Config::get('rbac.itemsProvider'));
+        if (Config::has('rbac.itemsPath')) {
+            require Config::get('rbac.itemsPath');
+        }
+
+        if (Config::has('rbac.actionsPath')) {
+            require Config::get('rbac.actionsPath');
+        }
     }
 }

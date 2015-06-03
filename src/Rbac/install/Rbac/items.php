@@ -51,10 +51,7 @@
  *         'photo.destroy'
  *     ]);
  *
- *     Rbac::permission('photo.manage.own', [
- *         'photo.manage'
- *     ],
- *     function ($params)
+ *     Rbac::permission('photo.manage.own', ['photo.manage'], function ($params)
  *     {
  *         return $params['photo']->owner_id == $this->user->id;
  *     });

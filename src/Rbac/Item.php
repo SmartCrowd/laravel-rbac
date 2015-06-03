@@ -18,19 +18,9 @@ class Item
     public $name;
 
     /**
-     * @var string the item description
-     */
-    public $description;
-
-    /**
      * @var \Closure business rule
      */
     public $rule;
-
-    /**
-     * @var mixed the additional data associated with this item
-     */
-    public $data;
 
     public function __construct($config)
     {
