@@ -89,7 +89,53 @@ class Manager
      */
     public function resource($itemName, $controller = null, $foreignKey = null)
     {
+        $actions = [
+            'index',
+            'create',
+            'store',
+            'show',
+            'edit',
+            'update',
+            'destroy'
+        ];
 
+        $tasks = [
+            'public' => [
+                'index',
+                'show'
+            ],
+            'manage' => [
+                'update',
+                'edit',
+                'destroy'
+            ]
+        ];
+
+        foreach ($actions as $action) {
+            $this->permission($itemName . '.' . $action);
+        }
+
+        foreach ($tasks as $taskName => $actions) {
+            $this->permission($itemName . '.' . $taskName, array_map(function ($value) use ($itemName) {
+                return $itemName . '.' . $value;
+            }, $actions));
+        }
+
+        $this->permission($itemName . '.manage.own', [$itemName . '.manage'], function ($params) {
+            return $params['photo']->owner_id == $this->user->id;
+        });
+
+
+
+
+
+      Rbac::action('PhotoController@index',   'photo.index');
+      Rbac::action('PhotoController@create',  'photo.create');
+      Rbac::action('PhotoController@store',   'photo.store');
+      Rbac::action('PhotoController@show',    'photo.show');
+      Rbac::action('PhotoController@edit',    'photo.edit');
+      Rbac::action('PhotoController@update',  'photo.update');
+      Rbac::action('PhotoController@destroy', 'photo.destroy');
     }
 
     /**
