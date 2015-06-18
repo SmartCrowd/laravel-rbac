@@ -121,21 +121,13 @@ class Manager
             }, $actions));
         }
 
-        $this->permission($itemName . '.manage.own', [$itemName . '.manage'], function ($params) {
-            return $params['photo']->owner_id == $this->user->id;
+        $this->permission($itemName . '.manage.own', [$itemName . '.manage'], function ($params) use ($foreignKey, $itemName) {
+            return $params[$itemName]->{$foreignKey} == $this->user->id;
         });
 
-
-
-
-
-      Rbac::action('PhotoController@index',   'photo.index');
-      Rbac::action('PhotoController@create',  'photo.create');
-      Rbac::action('PhotoController@store',   'photo.store');
-      Rbac::action('PhotoController@show',    'photo.show');
-      Rbac::action('PhotoController@edit',    'photo.edit');
-      Rbac::action('PhotoController@update',  'photo.update');
-      Rbac::action('PhotoController@destroy', 'photo.destroy');
+        foreach ($actions as $action) {
+            $this->action($controller . '@' . $action,  $itemName . '.' . $action);
+        }
     }
 
     /**

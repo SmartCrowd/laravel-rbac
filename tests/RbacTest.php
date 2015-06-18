@@ -28,19 +28,24 @@ class RbacTest extends TestCase
     {
         $admin = new User(1, ['admin']);
         $user = new User(2, ['user']);
-        $news = (object) ['author_id' => 2];
-        $news2 = (object) ['author_id' => 3];
+        $entity1 = (object) ['author_id' => 2];
+        $entity2 = (object) ['author_id' => 3];
 
-        return [
-            [$admin, $news, 'news.delete', true],
-            [$admin, $news, 'news.update', true],
-            [$admin, $news2, 'news.delete', true],
-            [$admin, $news2, 'news.update', true],
-            [$user, $news, 'news.delete', true],
-            [$user, $news, 'news.update', true],
-            [$user, $news2, 'news.delete', false],
-            [$user, $news2, 'news.update', false],
-        ];
+        $ret = [];
+        foreach ([/*'news', */'article'] as $name) {
+            $ret = array_merge($ret, [
+                [$admin, $entity1, $name . '.destroy', true],
+                [$admin, $entity1, $name . '.update', true],
+                [$admin, $entity2, $name . '.destroy', true],
+                [$admin, $entity2, $name . '.update', true],
+                [$user, $entity1,  $name . '.destroy', true],
+                [$user, $entity1,  $name . '.update', true],
+                [$user, $entity2,  $name . '.destroy', false],
+                [$user, $entity2,  $name . '.update', false],
+            ]);
+        }
+        
+        return $ret;
     }
 
     /**
@@ -48,7 +53,11 @@ class RbacTest extends TestCase
      */
     public function testRbac($subject, $object, $action, $result)
     {
-        $this->assertEquals($result, $subject->allowed($action, ['news' => $object]));
+        $params = [];
+        foreach (['news', 'article'] as $name) {
+            $params[$name] = $object;
+        }
+        $this->assertEquals($result, $subject->allowed($action, $params));
     }
 
 }
