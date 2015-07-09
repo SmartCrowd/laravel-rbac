@@ -1,10 +1,14 @@
 <?php
-namespace SmartCrowd\Rbac;
+
+namespace SmartCrowd\Rbac\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class RbacFacade extends Facade
+class Rbac extends Facade
 {
+    /**
+     * {@inheritdoc}
+     */
     protected static function getFacadeAccessor()
     {
         return 'rbac';
