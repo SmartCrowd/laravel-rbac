@@ -81,3 +81,23 @@ Package was inspired by RBAC module from Yii Framework
     - middleware paramenter
     - bind they directelly in `/Rbac/actions.php` file
     - name permission like action, for example `article.edit` for `ArticleController@edit` action
+
+4. Or in your views
+    ```php
+    @allowed('article.edit', ['article' => $article])
+        <a href="{{ route('edit', ['article' => $article])}}">edit</a>
+    @else
+        <span>You can not edit this article</span>
+    @endallowed
+    ```
+    In addition you can use shorter forms of directive:
+     ```php
+    @allowedArticleEdit(['article' => $article])
+    ...
+    @endallowed
+    
+    @allowedArticleIndex
+    ...
+    @endallowed
+
+    ```
