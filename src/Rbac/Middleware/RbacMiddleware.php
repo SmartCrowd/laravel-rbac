@@ -2,11 +2,15 @@
 
 namespace SmartCrowd\Rbac\Middleware;
 
+use Illuminate\Support\Facades\Auth;
+use SmartCrowd\Rbac\Facades\Rbac;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class RbacMiddleware
 {
-
+    /**
+     * @var Rbac
+     */
     private $manager;
 
     public function __construct(Rbac $rbacManager)
@@ -17,24 +21,21 @@ class RbacMiddleware
     /**
      * Run the request filter.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
+     * @param string|null $permission
      * @return mixed
      */
-    public function handle($request, \Closure $next)
+    public function handle($request, \Closure $next, $permission = null)
     {
         $route = $request->route();
 
-        if ($route && Auth::check()) {
-
+        if (empty($permission)) {
             $permission = $this->resolvePermission($route);
+        }
 
-            if ($this->manager->has($permission)) {
-                if (! Auth::user()->allowed($permission, $route->parameters())) {
-                    throw new AccessDeniedHttpException;
-                }
-            }
-
+        if (!Auth::check() || !Auth::user()->allowed($permission, $route->parameters())) {
+            throw new AccessDeniedHttpException;
         }
 
         return $next($request);
