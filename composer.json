@@ -1,5 +1,5 @@
 {
-    "name": "SmartCrowd/laravel-rbac",
+    "name": "smart-crowd/laravel-rbac",
     "description": "Laravel RBAC implementation.",
     "keywords": ["laravel", "RBAC", "ACL", "role-based access control"],
     "license": "MIT",
