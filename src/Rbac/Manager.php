@@ -17,13 +17,17 @@ class Manager
     }
 
     /**
-     * @param Assignable $user
+     * @param Assignable|null $user
      * @param string $itemName
      * @param array $params
      * @return boolean
      */
-    public function checkAccess(Assignable $user, $itemName, $params = [])
+    public function checkAccess($user, $itemName, $params = [])
     {
+        if (empty($user)) {
+            return false;
+        }
+
         $assignments = $user->getAssignments();
         return $this->checkAccessRecursive($user, $itemName, $params, $assignments);
     }

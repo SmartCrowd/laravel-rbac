@@ -44,21 +44,11 @@ class RbacServiceProvider extends ServiceProvider
             if (Str::startsWith($expression, '(')) {
 
                 $expression = substr($expression, 1, -1);
-                return "<?php if (\\Auth::user()->allowed({$expression})): ?>";
-
-            } else {
-
-                if (Str::endsWith($expression, ')')) {
-                    $parts = explode('(', $expression);
-                    $expression = substr($parts[1], 0, -1);
-                    $permission = Str::snake($parts[0], '.');
-                    return "<?php if (\\Auth::user()->allowed('{$permission}', {$expression})): ?>";
-                } else {
-                    $permission = Str::snake($expression, '.');
-                    return "<?php if (\\Auth::user()->allowed('{$permission}')): ?>";
-                }
+                return "<?php if (app('rbac')->checkAccess(\\Auth::user(), {$expression})): ?>";
 
             }
+
+            return '';
         });
 
         Blade::directive('endallowed', function($expression) {
