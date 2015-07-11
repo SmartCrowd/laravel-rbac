@@ -2,7 +2,7 @@
 
 namespace SmartCrowd\Rbac;
 
-class ItemsRepository implements \ArrayAccess
+class ItemsRepository implements \ArrayAccess, \IteratorAggregate
 {
     /**
      * @var array $items Items list
@@ -120,6 +120,15 @@ class ItemsRepository implements \ArrayAccess
     {
         unset($this->items[$offset]);
     }
+
+    /**
+     * {inheritdoc}
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->items);
+    }
+
 
     /**
      * Make a new tree relation

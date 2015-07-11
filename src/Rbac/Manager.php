@@ -143,6 +143,14 @@ class Manager
     }
 
     /**
+     * @var ItemsRepository $repository
+     */
+    public function setRepository(ItemsRepository $repository)
+    {
+        $this->items = $repository;
+    }
+
+    /**
      * Performs access check for the specified user.
      * This method is internally called by [[checkAccess()]].
      *

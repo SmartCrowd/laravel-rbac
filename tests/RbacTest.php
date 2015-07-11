@@ -32,7 +32,7 @@ class RbacTest extends TestCase
         $entity2 = (object) ['author_id' => 3];
 
         $ret = [];
-        foreach ([/*'news', */'article'] as $name) {
+        foreach (['news', 'article'] as $name) {
             $ret = array_merge($ret, [
                 [$admin, $entity1, $name . '.destroy', true],
                 [$admin, $entity1, $name . '.update', true],
