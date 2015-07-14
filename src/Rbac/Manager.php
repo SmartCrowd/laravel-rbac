@@ -3,6 +3,8 @@
 namespace SmartCrowd\Rbac;
 
 use SmartCrowd\Rbac\Contracts\Assignable;
+use SmartCrowd\Rbac\Contracts\RbacContext;
+use SmartCrowd\Rbac\Contracts\RbacContextAccessor;
 
 class Manager
 {
@@ -29,6 +31,8 @@ class Manager
         }
 
         $assignments = $user->getAssignments();
+        $contextAssignments = $this->resolveContextAssignments($user, $params);
+        $assignments = array_merge($assignments, $contextAssignments);
         return $this->checkAccessRecursive($user, $itemName, $params, $assignments);
     }
 
@@ -161,7 +165,7 @@ class Manager
      * @param array $assignments the list of permissions and roles, assigned to the specified user.
      * @return boolean whether the operations can be performed by the user.
      */
-    protected function checkAccessRecursive($user, $itemName, $params, $assignments)
+    protected function checkAccessRecursive(Assignable $user, $itemName, $params, $assignments)
     {
         if (!isset($this->items[$itemName])) {
             return false;
@@ -206,5 +210,31 @@ class Manager
                 ->execute($params);
         }
         return true;
+    }
+
+    /**
+     * Extracts assignments from business rules parameters,
+     * if they are RBAC context, or context accessor.
+     *
+     * @param Assignable $user
+     * @param array $params Business rules parameters.
+     * @return array Array of new context assignments for current checked user.
+     */
+    protected function resolveContextAssignments($user, $params)
+    {
+        $assignments = [];
+        foreach ($params as $parameter) {
+            if ($parameter instanceof RbacContext) {
+                $assignments = array_merge($assignments, $parameter->getAssignments($user));
+            }
+            if ($parameter instanceof RbacContextAccessor) {
+                $assignments = array_merge(
+                    $assignments,
+                    $this->resolveContextAssignments($user, [$parameter->getContext()])
+                );
+            }
+        }
+
+        return $assignments;
     }
 }

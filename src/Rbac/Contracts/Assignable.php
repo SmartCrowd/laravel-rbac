@@ -11,14 +11,4 @@ interface Assignable
      * @return array Array of user assignments.
      */
     public function getAssignments();
-
-    /**
-     * Determines whether is user allowed given permission
-     * or not.
-     *
-     * @param string $name Permission name.
-     * @param array $params Array of additional params for biz rule.
-     * @return bool
-     */
-    public function allowed($name, $params);
 }
