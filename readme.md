@@ -131,7 +131,7 @@ Route::delete('/post/{post}', [
 ```
 For this case you can implement `RbacContextAccesor` intarface by `Post` model. `getContext()` method should return `Group` model. Then you just have to send only the post, and context roles will be applied in middleware to:
 ```php
-@allowed('group.post.delete', ['post' => $post]) // or $post->group
+@allowed('group.post.delete', ['post' => $post])
     post delete button
 @endallowed
 ```
