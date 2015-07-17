@@ -168,7 +168,7 @@ class Manager implements RbacManager
      */
     protected function checkAccessRecursive(Assignable $user, $itemName, $params, $assignments)
     {
-        if (!isset($this->items[$itemName])) {
+        if (!$this->items->has($itemName)) {
             return false;
         }
 
