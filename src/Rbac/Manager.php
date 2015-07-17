@@ -238,4 +238,14 @@ class Manager implements RbacManager
 
         return $assignments;
     }
+
+    public function getActions()
+    {
+        return $this->items->getActions();
+    }
+
+    public function getControllers()
+    {
+        return $this->items->getControllers();
+    }
 }
