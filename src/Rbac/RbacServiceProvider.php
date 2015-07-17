@@ -17,7 +17,7 @@ class RbacServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('rbac', '\\SmartCrowd\\Rbac\\Manager');
+        $this->app->singleton('SmartCrowd\Rbac\Contracts\RbacManager', 'SmartCrowd\Rbac\Manager');
     }
 
     /**

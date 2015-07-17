@@ -5,8 +5,9 @@ namespace SmartCrowd\Rbac;
 use SmartCrowd\Rbac\Contracts\Assignable;
 use SmartCrowd\Rbac\Contracts\RbacContext;
 use SmartCrowd\Rbac\Contracts\RbacContextAccessor;
+use SmartCrowd\Rbac\Contracts\RbacManager;
 
-class Manager
+class Manager implements RbacManager
 {
     /**
      * @var ItemsRepository
