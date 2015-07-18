@@ -2,13 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: antarus66
- * Date: 7/17/15
- * Time: 4:34 PM
+ * Date: 7/18/15
+ * Time: 3:17 AM
  */
 namespace SmartCrowd\Rbac\Contracts;
 
 use SmartCrowd\Rbac\ItemsRepository;
 
+/**
+ * Interface RbacManager1
+ * @package SmartCrowd\Rbac\Contracts
+ */
 interface RbacManager
 {
     /**
@@ -66,4 +70,14 @@ interface RbacManager
      * @var ItemsRepository $repository
      */
     public function setRepository(ItemsRepository $repository);
+
+    /**
+     * @return Item array
+     */
+    public function getActions();
+
+    /**
+     * @return Item array
+     */
+    public function getControllers();
 }

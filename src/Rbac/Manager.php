@@ -7,6 +7,11 @@ use SmartCrowd\Rbac\Contracts\RbacContext;
 use SmartCrowd\Rbac\Contracts\RbacContextAccessor;
 use SmartCrowd\Rbac\Contracts\RbacManager;
 
+
+/**
+ * Class Manager
+ * @package SmartCrowd\Rbac
+ */
 class Manager implements RbacManager
 {
     /**
@@ -239,11 +244,17 @@ class Manager implements RbacManager
         return $assignments;
     }
 
+    /**
+     * @return Item array
+     */
     public function getActions()
     {
         return $this->items->getActions();
     }
 
+    /**
+     * @return Item array
+     */
     public function getControllers()
     {
         return $this->items->getControllers();
