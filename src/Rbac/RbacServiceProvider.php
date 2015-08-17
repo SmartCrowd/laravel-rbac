@@ -3,6 +3,7 @@ namespace SmartCrowd\Rbac;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use SmartCrowd\Rbac\Facades\Rbac;
@@ -32,8 +33,13 @@ class RbacServiceProvider extends ServiceProvider
             __DIR__ . '/install/Rbac' => app_path('Rbac'),
         ]);
 
-        require Config::get('rbac.itemsPath');
-        require Config::get('rbac.actionsPath');
+        if (File::exists(Config::get('rbac.itemsPath'))) {
+            File::requireOnce(Config::get('rbac.itemsPath'));
+        }
+
+        if (File::exists(Config::get('rbac.actionsPath'))) {
+            File::requireOnce(Config::get('rbac.actionsPath'));
+        }
 
         $this->registerDirectives();
     }
