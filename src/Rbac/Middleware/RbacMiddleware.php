@@ -34,7 +34,7 @@ class RbacMiddleware
             $permission = $this->resolvePermission($route);
         }
 
-        if (!Auth::check() || !Auth::user()->allowed($permission, $route->parameters())) {
+        if (!Auth::check() || !$this->manager->checkAccess(Auth::user(), $permission, $route->parameters())) {
             throw new AccessDeniedHttpException;
         }
 
