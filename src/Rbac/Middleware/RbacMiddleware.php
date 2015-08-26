@@ -53,7 +53,8 @@ class RbacMiddleware
 
         $action = $route->getAction();
 
-        $actionName  = stripslashes(str_replace($action['namespace'], '', $action['uses']));
+        $actionNameSlash = str_replace($action['namespace'], '', $action['uses']);
+        $actionName  = ltrim($actionNameSlash, '\\');
         $actionParts = explode('@', $actionName);
 
         if (isset($rbacActions[$actionName])) {
