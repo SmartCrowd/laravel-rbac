@@ -1,18 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antarus66
- * Date: 7/18/15
- * Time: 3:17 AM
- */
+
 namespace SmartCrowd\Rbac\Contracts;
 
 use SmartCrowd\Rbac\ItemsRepository;
 
-/**
- * Interface RbacManager1
- * @package SmartCrowd\Rbac\Contracts
- */
 interface RbacManager
 {
     /**

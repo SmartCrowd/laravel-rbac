@@ -32,21 +32,17 @@ class RbacMiddleware
         $route = $request->route();
 
         if (empty($permission)) {
-            $permissions = $this->resolvePermissions($route);
-        } else {
-            $permissions = [$permission];
+            $permission = $this->resolvePermission($route);
         }
 
-        foreach ($permissions as $permission) {
-            if (!Auth::check() || !$this->manager->checkAccess(Auth::user(), $permission, $route->parameters())) {
-                throw new AccessDeniedHttpException;
-            }
+        if (!Auth::check() || !$this->manager->checkAccess(Auth::user(), $permission, $route->parameters())) {
+            throw new AccessDeniedHttpException;
         }
 
         return $next($request);
     }
 
-    private function resolvePermissions($route)
+    private function resolvePermission($route)
     {
         $rbacActions     = $this->manager->getActions();
         $rbacControllers = $this->manager->getControllers();
@@ -58,14 +54,14 @@ class RbacMiddleware
         $actionParts = explode('@', $actionName);
 
         if (isset($rbacActions[$actionName])) {
-            $permissionNames = $rbacActions[$actionName];
+            $permissionName = $rbacActions[$actionName];
         } elseif (isset($rbacControllers[$actionParts[0]])) {
-            $permissionNames = $rbacControllers[$actionParts[0]] . '.' . $actionParts[1];
+            $permissionName = $rbacControllers[$actionParts[0]] . '.' . $actionParts[1];
         } else {
-            $permissionNames = $this->dotStyle($actionName);
+            $permissionName = $this->dotStyle($actionName);
         }
 
-        return $permissionNames;
+        return $permissionName;
     }
 
     private function dotStyle($action)

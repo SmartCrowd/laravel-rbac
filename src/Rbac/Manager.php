@@ -7,11 +7,6 @@ use SmartCrowd\Rbac\Contracts\RbacContext;
 use SmartCrowd\Rbac\Contracts\RbacContextAccessor;
 use SmartCrowd\Rbac\Contracts\RbacManager;
 
-
-/**
- * Class Manager
- * @package SmartCrowd\Rbac
- */
 class Manager implements RbacManager
 {
     /**
@@ -190,7 +185,7 @@ class Manager implements RbacManager
 
         foreach ($this->items->getChildren() as $parentName => $children) {
             if (isset($children[$itemName]) && $this->checkAccessRecursive($user, $parentName, $params, $assignments)) {
-                    return true;
+                return true;
             }
         }
         return false;
