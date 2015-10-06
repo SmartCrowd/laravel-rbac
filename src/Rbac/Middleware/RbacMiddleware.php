@@ -3,6 +3,7 @@
 namespace SmartCrowd\Rbac\Middleware;
 
 use Illuminate\Support\Facades\Auth;
+use SmartCrowd\Rbac\Contracts\RbacManager;
 use SmartCrowd\Rbac\Facades\Rbac;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -13,7 +14,7 @@ class RbacMiddleware
      */
     private $manager;
 
-    public function __construct(Rbac $rbacManager)
+    public function __construct(RbacManager $rbacManager)
     {
         $this->manager = $rbacManager;
     }
@@ -31,35 +32,40 @@ class RbacMiddleware
         $route = $request->route();
 
         if (empty($permission)) {
-            $permission = $this->resolvePermission($route);
+            $permissions = $this->resolvePermissions($route);
+        } else {
+            $permissions = [$permission];
         }
 
-        if (!Auth::check() || !$this->manager->checkAccess(Auth::user(), $permission, $route->parameters())) {
-            throw new AccessDeniedHttpException;
+        foreach ($permissions as $permission) {
+            if (!Auth::check() || !$this->manager->checkAccess(Auth::user(), $permission, $route->parameters())) {
+                throw new AccessDeniedHttpException;
+            }
         }
 
         return $next($request);
     }
 
-    private function resolvePermission($route)
+    private function resolvePermissions($route)
     {
         $rbacActions     = $this->manager->getActions();
         $rbacControllers = $this->manager->getControllers();
 
         $action = $route->getAction();
 
-        $actionName  = str_replace($action['namespace'], '', $action['uses']);
+        $actionNameSlash = str_replace($action['namespace'], '', $action['uses']);
+        $actionName  = ltrim($actionNameSlash, '\\');
         $actionParts = explode('@', $actionName);
 
         if (isset($rbacActions[$actionName])) {
-            $permissionName = $rbacActions[$actionName];
+            $permissionNames = $rbacActions[$actionName];
         } elseif (isset($rbacControllers[$actionParts[0]])) {
-            $permissionName = $rbacControllers[$actionParts[0]] . '.' . $actionParts[1];
+            $permissionNames = $rbacControllers[$actionParts[0]] . '.' . $actionParts[1];
         } else {
-            $permissionName = $this->dotStyle($actionName);
+            $permissionNames = $this->dotStyle($actionName);
         }
 
-        return $permissionName;
+        return $permissionNames;
     }
 
     private function dotStyle($action)

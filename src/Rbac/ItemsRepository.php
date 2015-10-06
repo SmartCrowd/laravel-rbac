@@ -81,6 +81,22 @@ class ItemsRepository implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getControllers()
+    {
+        return $this->controllers;
+    }
+
+    /**
      * @param $key
      * @return bool
      */

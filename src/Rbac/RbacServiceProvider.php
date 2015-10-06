@@ -18,7 +18,7 @@ class RbacServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('rbac', '\\SmartCrowd\\Rbac\\Manager');
+        $this->app->singleton('SmartCrowd\Rbac\Contracts\RbacManager', 'SmartCrowd\Rbac\Manager');
     }
 
     /**
@@ -52,7 +52,7 @@ class RbacServiceProvider extends ServiceProvider
                 $expression = substr($expression, 1, -1);
             }
 
-            return "<?php if (app('rbac')->checkAccess(\\Auth::user(), {$expression})): ?>";
+            return "<?php if (\\Rbac::checkAccess(\\Auth::user(), {$expression})): ?>";
         });
 
         if (Config::get('rbac.shortDirectives')) {
@@ -69,7 +69,7 @@ class RbacServiceProvider extends ServiceProvider
                         $expression = ', ' . $expression;
                     }
 
-                    return "<?php if (app('rbac')->checkAccess(\\Auth::user(), '{$name}'{$expression})): ?>";
+                    return "<?php if (\\Rbac::checkAccess(\\Auth::user(), '{$name}'{$expression})): ?>";
                 });
             }
         }

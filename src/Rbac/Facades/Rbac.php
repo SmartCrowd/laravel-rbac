@@ -11,6 +11,6 @@ class Rbac extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'rbac';
+        return 'SmartCrowd\Rbac\Contracts\RbacManager';
     }
 }
