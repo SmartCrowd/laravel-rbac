@@ -5,8 +5,9 @@ namespace SmartCrowd\Rbac;
 use SmartCrowd\Rbac\Contracts\Assignable;
 use SmartCrowd\Rbac\Contracts\RbacContext;
 use SmartCrowd\Rbac\Contracts\RbacContextAccessor;
+use SmartCrowd\Rbac\Contracts\RbacManager;
 
-class Manager
+class Manager implements RbacManager
 {
     /**
      * @var ItemsRepository
@@ -167,7 +168,7 @@ class Manager
      */
     protected function checkAccessRecursive(Assignable $user, $itemName, $params, $assignments)
     {
-        if (!isset($this->items[$itemName])) {
+        if (!$this->items->has($itemName)) {
             return false;
         }
 
@@ -236,5 +237,21 @@ class Manager
         }
 
         return $assignments;
+    }
+
+    /**
+     * @return Item array
+     */
+    public function getActions()
+    {
+        return $this->items->getActions();
+    }
+
+    /**
+     * @return Item array
+     */
+    public function getControllers()
+    {
+        return $this->items->getControllers();
     }
 }

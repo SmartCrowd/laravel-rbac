@@ -3,6 +3,7 @@
 namespace SmartCrowd\Rbac\Middleware;
 
 use Illuminate\Support\Facades\Auth;
+use SmartCrowd\Rbac\Contracts\RbacManager;
 use SmartCrowd\Rbac\Facades\Rbac;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -13,7 +14,7 @@ class RbacMiddleware
      */
     private $manager;
 
-    public function __construct(Rbac $rbacManager)
+    public function __construct(RbacManager $rbacManager)
     {
         $this->manager = $rbacManager;
     }
@@ -48,7 +49,8 @@ class RbacMiddleware
 
         $action = $route->getAction();
 
-        $actionName  = str_replace($action['namespace'], '', $action['uses']);
+        $actionNameSlash = str_replace($action['namespace'], '', $action['uses']);
+        $actionName  = ltrim($actionNameSlash, '\\');
         $actionParts = explode('@', $actionName);
 
         if (isset($rbacActions[$actionName])) {
