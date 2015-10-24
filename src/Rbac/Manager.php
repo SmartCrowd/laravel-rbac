@@ -76,19 +76,23 @@ class Manager implements RbacManager
      * @param string $name
      * @param array $children
      * @param \Closure $rule
+     * @param string $title
+     * @throws \Exception
      */
-    public function permission($name, $children = [], $rule = null)
+    public function permission($name, $children = [], $rule = null, $title = '')
     {
-        $this->items->addItem(Item::TYPE_PERMISSION, $name, $children, $rule);
+        $this->items->addItem(Item::TYPE_PERMISSION, $name, $children, $rule, $title);
     }
 
     /**
      * @param string $name
      * @param array $children
+     * @param string $title
+     * @throws \Exception
      */
-    public function role($name, $children)
+    public function role($name, $children, $title = '')
     {
-        $this->items->addItem(Item::TYPE_ROLE, $name, $children);
+        $this->items->addItem(Item::TYPE_ROLE, $name, $children, null, $title);
     }
 
     /**

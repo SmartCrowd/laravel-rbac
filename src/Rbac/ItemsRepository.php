@@ -30,16 +30,18 @@ class ItemsRepository implements \ArrayAccess, \IteratorAggregate
      * @param int $type
      * @param $name
      * @param array $children Names of child nodes
-     * @param null $rule
+     * @param \Closure $rule
+     * @param string $title
      * @throws \Exception
      */
-    public function addItem($type, $name, $children = [], $rule = null)
+    public function addItem($type, $name, $children = [], $rule = null, $title = '')
     {
         $class = $type == Item::TYPE_PERMISSION ? '\\SmartCrowd\\Rbac\\Permission' : '\\SmartCrowd\\Rbac\\Role';
         $this->items[$name] = new $class([
-            'type' => $type,
-            'name' => $name,
-            'rule' => $rule
+            'type'  => $type,
+            'name'  => $name,
+            'rule'  => $rule,
+            'title' => $title,
         ]);
 
         foreach ($children as $childName) {

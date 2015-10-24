@@ -22,6 +22,11 @@ class Item
      */
     public $rule;
 
+    /**
+     * @var string Human readable item name
+     */
+    public $title;
+
     public function __construct($config)
     {
         foreach ($config as $key => $value) {
