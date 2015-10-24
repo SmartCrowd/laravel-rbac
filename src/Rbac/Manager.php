@@ -134,12 +134,16 @@ class Manager implements RbacManager
             }, $actions));
         }
 
-        $this->permission($itemName . '.manage.own', [$itemName . '.manage'], function ($params) use ($foreignKey, $itemName) {
-            return $params[$itemName]->{$foreignKey} == $this->user->id;
-        });
+        if (!empty($foreignKey)) {
+            $this->permission($itemName . '.manage.own', [$itemName . '.manage'], function ($params) use ($foreignKey, $itemName) {
+                return $params[$itemName]->{$foreignKey} == $this->user->id;
+            });
+        }
 
-        foreach ($actions as $action) {
-            $this->action($controller . '@' . $action,  $itemName . '.' . $action);
+        if (!empty($controller)) {
+            foreach ($actions as $action) {
+                $this->action($controller . '@' . $action, $itemName . '.' . $action);
+            }
         }
     }
 
