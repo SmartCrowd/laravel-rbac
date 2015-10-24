@@ -45,10 +45,35 @@ class ItemsRepository implements \ArrayAccess, \IteratorAggregate
         foreach ($children as $childName) {
             if (isset($this->items[$childName])) {
                 $this->addChild($this->items[$name], $this->items[$childName]);
+            } elseif (strpos($childName, '*') !== false) {
+                $found = $this->search($childName);
+                foreach ($found as $foundItem) {
+                    $this->addChild($this->items[$name], $this->items[$foundItem->name]);
+                }
             } else {
                 throw new \Exception("Can't add unknown permission '{$childName}' as child of '{$name}'");
             }
         }
+    }
+
+    /**
+     * Searches items according given wildcard pattern
+     *
+     * @param string $pattern
+     * @return array Founded items
+     */
+    public function search($pattern)
+    {
+        $pattern = '/^' . str_replace(['.', '*'], ['\\.', '.*'], $pattern) . '$/i';
+
+        $found = [];
+        foreach ($this->items as $item) {
+            if (preg_match($pattern, $item->name)) {
+                $found[] = $item;
+            }
+        }
+
+        return $found;
     }
 
     /**
