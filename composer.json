@@ -14,8 +14,8 @@
         }
     ],
     "require": {
-        "illuminate/support": "5.1.*",
-        "illuminate/container": "5.1.*"
+        "illuminate/support": "5.*",
+        "illuminate/container": "5.*"
     },
     "require-dev": {
         "orchestra/testbench": "~3.0",
