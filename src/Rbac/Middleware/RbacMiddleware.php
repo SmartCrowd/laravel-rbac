@@ -24,19 +24,24 @@ class RbacMiddleware
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
-     * @param string|null $permission
+     * @param array $permissions
      * @return mixed
      */
-    public function handle($request, \Closure $next, $permission = null)
+    public function handle($request, \Closure $next, $permissions = [])
     {
         $route = $request->route();
 
-        if (empty($permission)) {
-            $permission = $this->resolvePermission($route);
+        if (empty($permissions)) {
+            $permissions = $this->resolvePermission($route);
         }
 
-        if (!Auth::check() || !$this->manager->checkAccess(Auth::user(), $permission, $route->parameters())) {
-            throw new AccessDeniedHttpException;
+        if (!is_array($permissions)) {
+            $permissions = [$permissions];
+        }
+        foreach ($permissions as $permission){
+            if (!Auth::check() || !$this->manager->checkAccess(Auth::user(), $permission, $route->parameters())) {
+                throw new AccessDeniedHttpException;
+            }
         }
 
         return $next($request);
