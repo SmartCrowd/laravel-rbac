@@ -62,6 +62,8 @@ class RbacMiddleware
             $permissionName = $rbacActions[$actionName];
         } elseif (isset($rbacControllers[$actionParts[0]])) {
             $permissionName = $rbacControllers[$actionParts[0]] . '.' . $actionParts[1];
+        } elseif (!empty($action['as']) && config('rbac.useRouteName')) {
+            $permissionName = $action['as'];
         } else {
             $permissionName = $this->dotStyle($actionName);
         }
