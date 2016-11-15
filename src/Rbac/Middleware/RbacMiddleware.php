@@ -51,18 +51,13 @@ class RbacMiddleware
     private function resolvePermission($route)
     {
         $rbacActions = $this->manager->getActions();
-        $rbacControllers = $this->manager->getControllers();
 
         $action = $route->getAction();
 
-        $actionNameSlash = str_replace($action['namespace'], '', $action['uses']);
-        $actionName = ltrim($actionNameSlash, '\\');
-        $actionParts = explode('@', $actionName);
+        $actionName = ltrim(str_replace($action['namespace'], '', $action['uses']), '\\');
 
         if (isset($rbacActions[$actionName])) {
             $permissionName = $rbacActions[$actionName];
-        } elseif (isset($rbacControllers[$actionParts[0]])) {
-            $permissionName = $rbacControllers[$actionParts[0]] . '.' . $actionParts[1];
         } elseif (!empty($action['as']) && config('rbac.useRouteName')) {
             $permissionName = $action['as'];
         } else {

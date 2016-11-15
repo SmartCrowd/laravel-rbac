@@ -20,11 +20,6 @@ class ItemsRepository implements \ArrayAccess, \IteratorAggregate
     protected $actions = []; // actionName => itemName[]
 
     /**
-     * @var array $controllers Permissions prefix to controllers assigns
-     */
-    protected $controllers = []; // controllerName => prefix
-
-    /**
      * Add a item node to items list
      *
      * @param int $type
@@ -91,15 +86,6 @@ class ItemsRepository implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @param string $controllerName
-     * @param string $prefix
-     */
-    public function controller($controllerName, $prefix)
-    {
-        $this->controllers[$controllerName] = $prefix;
-    }
-
-    /**
      * @return array
      */
     public function getChildren()
@@ -113,14 +99,6 @@ class ItemsRepository implements \ArrayAccess, \IteratorAggregate
     public function getActions()
     {
         return $this->actions;
-    }
-
-    /**
-     * @return array
-     */
-    public function getControllers()
-    {
-        return $this->controllers;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace SmartCrowd\Rbac\Contracts;
 
+use SmartCrowd\Rbac\Item;
 use SmartCrowd\Rbac\ItemsRepository;
 
 interface RbacManager
@@ -25,12 +26,6 @@ interface RbacManager
      * @param array|string $permissions
      */
     public function action($actions, $permissions);
-
-    /**
-     * @param string $controllerName
-     * @param string $prefix
-     */
-    public function controller($controllerName, $prefix);
 
     /**
      * @param string $name
@@ -66,9 +61,4 @@ interface RbacManager
      * @return Item array
      */
     public function getActions();
-
-    /**
-     * @return Item array
-     */
-    public function getControllers();
 }

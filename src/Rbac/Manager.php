@@ -65,15 +65,6 @@ class Manager implements RbacManager
     }
 
     /**
-     * @param string $controllerName
-     * @param string $prefix
-     */
-    public function controller($controllerName, $prefix)
-    {
-        $this->items->controller($controllerName, $prefix);
-    }
-
-    /**
      * @param string $name
      * @param array $children
      * @param \Closure $rule
@@ -257,13 +248,5 @@ class Manager implements RbacManager
     public function getActions()
     {
         return $this->items->getActions();
-    }
-
-    /**
-     * @return Item array
-     */
-    public function getControllers()
-    {
-        return $this->items->getControllers();
     }
 }
