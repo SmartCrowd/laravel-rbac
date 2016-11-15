@@ -169,12 +169,13 @@ class Manager
      * @param array $params name-value pairs that would be passed to rules associated.
      * with the permissions and roles assigned to the user.
      * @param array $assignments the list of permissions and roles, assigned to the specified user.
-     * @return boolean whether the operations can be performed by the user.
+     * @return bool whether the operations can be performed by the user.
+     * @throws \Exception
      */
     protected function checkAccessRecursive(Assignable $user, $itemName, $params, $assignments)
     {
         if (!$this->items->has($itemName)) {
-            return false;
+            throw new \Exception("RBAC item '{$itemName}' not found.");
         }
 
         /* @var $item Item */
