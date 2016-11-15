@@ -5,18 +5,22 @@ namespace SmartCrowd\Rbac;
 use SmartCrowd\Rbac\Contracts\Assignable;
 use SmartCrowd\Rbac\Contracts\RbacContext;
 use SmartCrowd\Rbac\Contracts\RbacContextAccessor;
-use SmartCrowd\Rbac\Contracts\RbacManager;
 
-class Manager implements RbacManager
+class Manager
 {
     /**
      * @var ItemsRepository
      */
     protected $items;
 
-    public function __construct()
+    /**
+     * Manager constructor.
+     * 
+     * @param ItemsRepository $repository
+     */
+    public function __construct(ItemsRepository $repository)
     {
-        $this->items = new ItemsRepository;
+        $this->items = $repository;
     }
 
     /**

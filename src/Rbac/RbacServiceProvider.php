@@ -18,15 +18,9 @@ class RbacServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('SmartCrowd\Rbac\Contracts\RbacManager', 'SmartCrowd\Rbac\Manager');
-
-        if (File::exists(Config::get('rbac.itemsPath'))) {
-            File::requireOnce(Config::get('rbac.itemsPath'));
-        }
-
-        if (File::exists(Config::get('rbac.actionsPath'))) {
-            File::requireOnce(Config::get('rbac.actionsPath'));
-        }
+        $this->app->singleton('SmartCrowd\Rbac\Manager');
+        $this->registerItems();
+        $this->registerActionsBindings();
     }
 
     /**
@@ -77,6 +71,21 @@ class RbacServiceProvider extends ServiceProvider
         Blade::directive('endallowed', function ($expression) {
             return "<?php endif; ?>";
         });
+    }
+
+    private function registerItems()
+    {
+
+        if (File::exists(Config::get('rbac.itemsPath'))) {
+            File::requireOnce(Config::get('rbac.itemsPath'));
+        }
+    }
+
+    private function registerActionsBindings()
+    {
+        if (File::exists(Config::get('rbac.actionsPath'))) {
+            File::requireOnce(Config::get('rbac.actionsPath'));
+        }
     }
 }
 
