@@ -38,7 +38,7 @@ class RbacServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/install/config/rbac.php' => config_path('rbac.php'),
-            __DIR__ . '/install/Rbac' => app_path('Rbac'),
+            __DIR__ . '/install/Rbac'            => app_path('Rbac'),
         ]);
 
         $this->registerDirectives();
@@ -62,7 +62,7 @@ class RbacServiceProvider extends ServiceProvider
                 $directiveName = $item->type == Item::TYPE_PERMISSION ? 'allowed' : 'is';
                 $directiveName .= Str::studly(str_replace('.', ' ', $name));
 
-                Blade::directive($directiveName, function($expression) use ($name) {
+                Blade::directive($directiveName, function ($expression) use ($name) {
 
                     $expression = trim($expression, '()');
                     if (!empty($expression)) {
@@ -74,7 +74,7 @@ class RbacServiceProvider extends ServiceProvider
             }
         }
 
-        Blade::directive('endallowed', function($expression) {
+        Blade::directive('endallowed', function ($expression) {
             return "<?php endif; ?>";
         });
     }

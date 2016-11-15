@@ -27,7 +27,12 @@ class Item
      */
     public $title;
 
-    public function __construct($config)
+    /**
+     * Item constructor.
+     * 
+     * @param array $config Array of item public fields values
+     */
+    public function __construct(array $config)
     {
         foreach ($config as $key => $value) {
             if (property_exists($this, $key)) {

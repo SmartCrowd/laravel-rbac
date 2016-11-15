@@ -18,7 +18,7 @@ class Rule
     private $closure;
 
     /**
-     * @param callable $closure
+     * @param \Closure $closure
      */
     public function __construct(\Closure $closure)
     {
@@ -32,6 +32,7 @@ class Rule
     public function setUser($user)
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -42,6 +43,7 @@ class Rule
     public function setItem($item)
     {
         $this->item = $item;
+
         return $this;
     }
 
@@ -52,7 +54,8 @@ class Rule
     public function execute($params)
     {
         $closure = $this->closure;
-        return (boolean) $closure($params);
+
+        return (boolean)$closure($params);
     }
 
 }

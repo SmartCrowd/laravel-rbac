@@ -231,6 +231,7 @@ class ItemsRepository implements \ArrayAccess, \IteratorAggregate
                 return true;
             }
         }
+
         return false;
     }
 }

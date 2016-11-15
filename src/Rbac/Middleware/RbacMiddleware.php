@@ -38,7 +38,8 @@ class RbacMiddleware
         if (!is_array($permissions)) {
             $permissions = [$permissions];
         }
-        foreach ($permissions as $permission){
+
+        foreach ($permissions as $permission) {
             if (!Auth::check() || !$this->manager->checkAccess(Auth::user(), $permission, $route->parameters())) {
                 throw new AccessDeniedHttpException;
             }
@@ -49,13 +50,13 @@ class RbacMiddleware
 
     private function resolvePermission($route)
     {
-        $rbacActions     = $this->manager->getActions();
+        $rbacActions = $this->manager->getActions();
         $rbacControllers = $this->manager->getControllers();
 
         $action = $route->getAction();
 
         $actionNameSlash = str_replace($action['namespace'], '', $action['uses']);
-        $actionName  = ltrim($actionNameSlash, '\\');
+        $actionName = ltrim($actionNameSlash, '\\');
         $actionParts = explode('@', $actionName);
 
         if (isset($rbacActions[$actionName])) {

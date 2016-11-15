@@ -34,6 +34,7 @@ class Manager implements RbacManager
         $assignments = $user->getAssignments();
         $contextAssignments = $this->resolveContextAssignments($user, $params);
         $assignments = array_merge($assignments, $contextAssignments);
+
         return $this->checkAccessRecursive($user, $itemName, $params, $assignments);
     }
 
@@ -109,19 +110,19 @@ class Manager implements RbacManager
             'show',
             'edit',
             'update',
-            'destroy'
+            'destroy',
         ];
 
         $tasks = [
             'public' => [
                 'index',
-                'show'
+                'show',
             ],
             'manage' => [
                 'update',
                 'edit',
-                'destroy'
-            ]
+                'destroy',
+            ],
         ];
 
         foreach ($actions as $action) {
@@ -135,9 +136,10 @@ class Manager implements RbacManager
         }
 
         if (!empty($foreignKey)) {
-            $this->permission($itemName . '.manage.own', [$itemName . '.manage'], function ($params) use ($foreignKey, $itemName) {
-                return $params[$itemName]->{$foreignKey} == $this->user->id;
-            });
+            $this->permission($itemName . '.manage.own', [$itemName . '.manage'],
+                function ($params) use ($foreignKey, $itemName) {
+                    return $params[$itemName]->{$foreignKey} == $this->user->id;
+                });
         }
 
         if (!empty($controller)) {
@@ -196,6 +198,7 @@ class Manager implements RbacManager
                 return true;
             }
         }
+
         return false;
     }
 
@@ -218,6 +221,7 @@ class Manager implements RbacManager
                 ->setItem($item)
                 ->execute($params);
         }
+
         return true;
     }
 
