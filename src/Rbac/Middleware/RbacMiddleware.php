@@ -55,7 +55,10 @@ class RbacMiddleware
 
         $action = $route->getAction();
 
-        $actionName = ltrim(str_replace($action['namespace'], '', $action['uses']), '\\');
+        $actionName = null;
+        if (is_string($action['uses'])) {
+            $actionName = ltrim(str_replace($action['namespace'], '', $action['uses']), '\\');
+        }
 
         if (isset($rbacActions[$actionName])) {
             $permissionName = $rbacActions[$actionName];
